@@ -1,0 +1,7 @@
+node_modules
+
+# aliases I use in git
+alias.sh
+
+# vscode settings for this project
+.vscode
