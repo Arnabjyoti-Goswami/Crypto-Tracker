@@ -1,6 +1,12 @@
+import { CryptoContext } from "../context/CryptoContext.jsx"
+import { useContext } from 'react';
+
 const TableComponent = () => {
+  const {  } = useContext(CryptoContext)
+
   return (
     <div className='flex flex-col mt-9 border border-gray-100 rounded'>
+
       <table className='w-full table-auto'>
         <thead className='capitalize text-base text-gray-100 font-medium border-b border-gray-100'>
           <tr>
