@@ -31,14 +31,32 @@ const TableComponent = () => {
               <button className='outline-0 border-0 bg-none cursor-pointer'>
                 <StarSvg />
               </button>
+              <img className='w-[1.2rem] h-[1.2rem] mx-1.5' src={data.image} alt={data.name} />
+              <span>
+                {data.symbol}
+              </span>
             </td>
-            <td className='py-4'>{data.name}</td>
-            <td className='py-4'>price</td>
-            <td className='py-4'>total volume</td>
-            <td className='py-4'>market cap change</td>
-            <td className='py-4'>1H</td>
-            <td className='py-4'>24H</td>
-            <td className='py-4'>7D</td>
+            <td className='py-4'>
+              {data.name}
+            </td>
+            <td className='py-4'>
+              {data.current_price}
+            </td>
+            <td className='py-4'>
+              {data.total_volume}
+            </td>
+            <td className='py-4'>
+              {data.market_cap_change_percentage_24h}
+            </td>
+            <td className='py-4'>
+              {Number(data.price_change_percentage_1h_in_currency).toFixed(4)}
+            </td>
+            <td className='py-4'>
+              {Number(data.price_change_percentage_24h_in_currency).toFixed(4)}
+            </td>
+            <td className='py-4'>
+              {Number(data.price_change_percentage_7d_in_currency).toFixed(4)}
+            </td>
           </tr>
           )
         })
