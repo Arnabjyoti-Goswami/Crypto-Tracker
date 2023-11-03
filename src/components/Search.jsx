@@ -15,6 +15,11 @@ const SearchInput = ({handleSearch}) => {
     handleSearch(query);
   }
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    handleSearch(searchText);
+  }
+
   const selectCoin = (coin) => {
     setCoinSearch(coin);
     setSearchText('');
@@ -23,7 +28,8 @@ const SearchInput = ({handleSearch}) => {
 
   return (
     <div className='relative'>
-      <form className='w-96 relative flex items-center ml-7 font-nunito'>
+      <form className='w-96 relative flex items-center ml-7 font-nunito' 
+      onSubmit={handleSubmit}>
         <input type='text' name='search' placeholder='search here...' 
         className='w-full rounded bg-gray-200
         placeholder:text-gray-100 pl-2
@@ -37,7 +43,8 @@ const SearchInput = ({handleSearch}) => {
       </form>
 
       {
-        searchText.length > 0 ?
+        searchText.length > 0 
+        ?
         <ul className='absolute top-11 right-0 w-96 h-96 rounded 
         overflow-x-hidden py-2 bg-gray-200 bg-opacity-60
         backdrop-blur-md'>
@@ -53,7 +60,12 @@ const SearchInput = ({handleSearch}) => {
               </li>
             )
           })
-          : <h2>please wait...</h2>
+          :
+          <div className='w-full h-full flex justify-center items-center'>
+            <div className='w-8 h-8 border-4 border-cyan rounded-full border-b-gray-200 animate-spin' 
+            role='status'/>
+            <span className='ml-2'>Searching...</span>
+          </div>
         }
         </ul>
         :
