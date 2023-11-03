@@ -3,7 +3,7 @@ import { useContext } from 'react';
 import StarSvg from '../assets/StarSvg.jsx';
 
 const TableComponent = () => {
-  const { cryptoData } = useContext(CryptoContext);
+  const { cryptoData, currency } = useContext(CryptoContext);
 
   return (
     <div className='flex flex-col mt-9 border border-gray-100 rounded'>
@@ -43,7 +43,7 @@ const TableComponent = () => {
             {  
               new Intl.NumberFormat('en-IN', {
                 style: 'currency',
-                currency: 'usd',
+                currency: currency,
                 maximumFractionDigits: data.current_price < 1
                 ? 6
                 : data.current_price >= 1 && data.current_price < 10
