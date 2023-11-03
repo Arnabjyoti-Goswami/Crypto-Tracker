@@ -15,12 +15,25 @@ export const CryptoProvider = ({children}) => {
     }
   }
 
+  
   useLayoutEffect(() => {
     getCryptoData();
   }, []);
 
+  const [searchResultData, setSearchResultData] = useState();
+
+  const getSearchResult = async (query) => {
+    try {
+      const searchResultData = await fetch(`https://api.coingecko.com/api/v3/search?query=${query}`).then(res => res.json()).then(json => json);
+      console.log(searchResultData);
+      setSearchResultData(searchResultData);
+    } catch(error) {
+      console.log(error);
+    }
+  }
+
   return (
-    <CryptoContext.Provider value={{ cryptoData }}>
+    <CryptoContext.Provider value={{ cryptoData, searchResultData, getSearchResult }}>
       {children}
     </CryptoContext.Provider>
   )
