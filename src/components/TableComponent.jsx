@@ -40,21 +40,44 @@ const TableComponent = () => {
               {data.name}
             </td>
             <td className='py-4'>
-              {data.current_price}
+            {  
+              new Intl.NumberFormat('en-IN', {
+                style: 'currency',
+                currency: 'usd',
+                maximumFractionDigits: data.current_price < 1
+                ? 6
+                : data.current_price >= 1 && data.current_price < 10
+                  ? 5
+                  : data.current_price >= 10 && data.current_price < 100
+                    ? 4
+                    : data.current_price >= 100 && data.current_price < 1000
+                      ? 3
+                      : 2
+              }).format(data.current_price)
+            }
             </td>
             <td className='py-4'>
               {data.total_volume}
             </td>
             <td className='py-4'>
-              {data.market_cap_change_percentage_24h}
+              {Number(data.market_cap_change_percentage_24h).toFixed(6).replace(/\.?0*$/, '')}%
             </td>
-            <td className='py-4'>
+            <td className={
+              data.price_change_percentage_1h_in_currency > 0 ? 
+              'text-green py-4': 'text-red py-4'
+            }>
               {Number(data.price_change_percentage_1h_in_currency).toFixed(4)}
             </td>
-            <td className='py-4'>
+            <td className={
+              data.price_change_percentage_24h_in_currency > 0 ? 
+              'text-green py-4': 'text-red py-4'
+            }>
               {Number(data.price_change_percentage_24h_in_currency).toFixed(4)}
             </td>
-            <td className='py-4'>
+            <td className={
+              data.price_change_percentage_7d_in_currency > 0 ? 
+              'text-green py-4': 'text-red py-4'
+            }>
               {Number(data.price_change_percentage_7d_in_currency).toFixed(4)}
             </td>
           </tr>
