@@ -6,13 +6,19 @@ import debounce from 'lodash.debounce';
 const SearchInput = ({handleSearch}) => {
   const [searchText, setSearchText] = useState('');
 
-  let { searchResultData } = useContext(CryptoContext);
+  let { searchResultData, setCoinSearch, setSearchResultData } = useContext(CryptoContext);
 
   const handleInput = (e) => {
     e.preventDefault();
     let query = e.target.value;
     setSearchText(query);
     handleSearch(query);
+  }
+
+  const selectCoin = (coin) => {
+    setCoinSearch(coin);
+    setSearchText('');
+    setSearchResultData();
   }
 
   return (
@@ -40,7 +46,8 @@ const SearchInput = ({handleSearch}) => {
           searchResultData.map(coinData => {
             return(
               <li className='flex items-center ml-4 my-2 cursor-pointer'
-              key={coinData.id}>
+              key={coinData.id}
+              onClick={()=> selectCoin(coinData.id)}>
                 <img className='w-[1rem] h-[1rem] mx-1.5' src={coinData.thumb} alt={coinData.name}/>
                 <span>{coinData.name}</span>
               </li>
