@@ -4,7 +4,7 @@ import { CryptoContext } from '../context/CryptoContext.jsx';
 import PerPage from './PerPage.jsx';
 
 const Pagination = () => {
-  let { currentPage, setCurrentPage, totalCoins, coinsPerPage } = useContext(CryptoContext);
+  let { currentPage, setCurrentPage, totalCoins, coinsPerPage, cryptoData } = useContext(CryptoContext);
 
   let totalPages = Math.ceil(totalCoins / coinsPerPage);
 
@@ -49,6 +49,9 @@ const Pagination = () => {
         </a>
       </span>
 
+      {
+      cryptoData && cryptoData.length >= coinsPerPage
+      ? (
       <div className='flex items-center'>
         <PerPage />
         <ul className='flex items-center justify-end text-sm'>
@@ -150,6 +153,9 @@ const Pagination = () => {
           }
         </ul>
       </div>
+      ) :
+      null
+      }
     </div>
   )
 }
