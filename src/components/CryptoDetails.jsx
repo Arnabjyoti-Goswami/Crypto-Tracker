@@ -2,10 +2,11 @@ import { useContext, useLayoutEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { useNavigate, useParams } from 'react-router-dom';
 import { CryptoContext } from '../context/CryptoContext.jsx';
+import SelectIcon from '../assets/SelectIcon.jsx';
 
 const CryptoDetails = () => {
   let { coinId } = useParams();
-  let { getCoinData, coinData:data } = useContext(CryptoContext);
+  let { getCoinData, coinData:data, currency } = useContext(CryptoContext);
   let navigate = useNavigate();
 
   const closePopUp = () => {
@@ -43,7 +44,50 @@ const CryptoDetails = () => {
                 {data.symbol}
               </span>
             </div>
+            <div className='flex w-full mt-6'>
+              <div className='flex flex-col w-full'>
+                <div className='flex justify-between'>
+                  <span className='text-sm capitalize text-gray-100'>
+                    Price
+                  </span>
+                  <div className={`text-sm px-1 ml-2 font-medium
+                  flex items-center rounded uppercase
+                  bg-opacity-25
+                  ${
+                    data.market_data.price_change_percentage_24h > 0 
+                    ? 'bg-green text-green' : 
+                    'bg-red text-red'
+                  } 
+                  `}>
+                    <span>
+                      {Number(data.market_data.price_change_percentage_24h).toFixed(2)}%
+                    </span>
+                    <SelectIcon upTrend={
+                      data.market_data.price_change_percentage_24h > 0
+                    }/>
+                  </div>
+                </div>
+                <h2 className='text-lg font-bold'>
+                {  
+                new Intl.NumberFormat('en-IN', {
+                  style: 'currency',
+                  currency: currency,
+                  maximumFractionDigits: data.current_price < 1
+                  ? 6
+                  : data.current_price >= 1 && data.current_price < 10
+                    ? 5
+                    : data.current_price >= 10 && data.current_price < 100
+                      ? 4
+                      : data.current_price >= 100 && data.current_price < 1000
+                        ? 3
+                        : 2
+                }).format(data.market_data.current_price[currency])
+                }
+                </h2>
+              </div>
+            </div>
           </div>
+
           <div className='flex flex-col w-[55%] h-full pl-3 bg-green'>
             Right
           </div>
