@@ -47,7 +47,8 @@ const SearchInput = ({handleSearch}) => {
         ?
         <ul className='absolute top-11 right-0 w-96 h-96 rounded 
         overflow-x-hidden py-2 bg-gray-200 bg-opacity-60
-        backdrop-blur-md'>
+        backdrop-blur-md
+        scrollbar-thin scrollbar-thumb-gray-100 scrollbar-track-gray-200'>
         {
           searchResultData ? 
           searchResultData.map(coinData => {

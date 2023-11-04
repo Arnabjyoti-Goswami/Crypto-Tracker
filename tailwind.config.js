@@ -23,5 +23,5 @@ export default {
       base: "16px"
     }
   },
-  plugins: [],
+  plugins: [require("tailwind-scrollbar")],
 }

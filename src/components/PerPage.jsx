@@ -11,8 +11,7 @@ const PerPage = () => {
     let val = inputRef.current.value;
     if(val >= 1 && val <= 250) {
       setCoinsPerPage(val);
-      inputRef.current.placeholder = val;
-      inputRef.current.value = '';
+      inputRef.current.value = val;
     }
   }
 

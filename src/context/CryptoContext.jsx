@@ -17,7 +17,7 @@ export const CryptoProvider = ({children}) => {
     setCoinSearch('');
     setSortBy('market_cap_desc');
     setCurrency('usd');
-    setPerPage(10);
+    setCoinsPerPage(10);
   }
 
   const getCryptoData = async () => {
