@@ -54,9 +54,21 @@ export const CryptoProvider = ({children}) => {
     }
   }
 
+  const [coinData, setCoinData] = useState();
+
+  const getCoinData = async (coinId) => {
+    try {
+      const data = await fetch(`https://api.coingecko.com/api/v3/coins/${coinId}?localization=false&tickers=false&market_data=true&community_data=false&developer_data=true&sparkline=false`).then(res => res.json()).then(json => json);
+      console.log(data);
+      setCoinData(data);
+    } catch(error) {
+      console.log(error);
+    }
+  }
+  
   return (
     <CryptoContext.Provider 
-    value={{ 
+    value={ { 
       cryptoData, 
       searchResultData, 
       getSearchResult, 
@@ -68,8 +80,10 @@ export const CryptoProvider = ({children}) => {
       totalCoins,
       resetHomePage,
       coinsPerPage, setCoinsPerPage,
-    }}>
+      coinData,
+      getCoinData,
+    } }>
       {children}
     </CryptoContext.Provider>
   )
-};
+}
