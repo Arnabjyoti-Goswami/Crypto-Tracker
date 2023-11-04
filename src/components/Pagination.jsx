@@ -1,10 +1,12 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import paginationArrow from '../assets/pagination-arrow.svg';
+import { CryptoContext } from '../context/CryptoContext.jsx';
 
 const Pagination = () => {
-  const [currentPage, setCurrentPage] = useState(1);
-
-  let totalPages = 100;
+  let { currentPage, setCurrentPage, totalCoins } = useContext(CryptoContext);
+  
+  let coinsPerPage = 10;
+  let totalPages = Math.ceil(totalCoins / coinsPerPage);
 
   const nextPage = () => {
     if(currentPage === totalPages) {
