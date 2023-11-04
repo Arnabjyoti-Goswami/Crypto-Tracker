@@ -1,11 +1,24 @@
 import submitIcon from '../assets/submit-icon.svg';
-import { useRef } from 'react';
+import { useContext, useRef } from 'react';
+import { CryptoContext } from '../context/CryptoContext.jsx';
 
 const PerPage = () => {
+  const { setCoinsPerPage } = useContext(CryptoContext);
   const inputRef = useRef(null);
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    let val = inputRef.current.value;
+    if(val >= 1 && val <= 250) {
+      setCoinsPerPage(val);
+      inputRef.current.placeholder = val;
+      inputRef.current.value = '';
+    }
+  }
+
   return (
-    <form className='relative flex items-center font-nunito mr-12'>
+    <form className='relative flex items-center font-nunito mr-12'
+    onSubmit={handleSubmit}>
       <label htmlFor='perpage'
       className='relative flex justify-center items-center mr-2 font-bold'>
         per page:{' '}

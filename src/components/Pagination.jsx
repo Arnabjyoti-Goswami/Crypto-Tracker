@@ -4,9 +4,8 @@ import { CryptoContext } from '../context/CryptoContext.jsx';
 import PerPage from './PerPage.jsx';
 
 const Pagination = () => {
-  let { currentPage, setCurrentPage, totalCoins } = useContext(CryptoContext);
-  
-  let coinsPerPage = 10;
+  let { currentPage, setCurrentPage, totalCoins, coinsPerPage } = useContext(CryptoContext);
+
   let totalPages = Math.ceil(totalCoins / coinsPerPage);
 
   const nextPage = () => {
