@@ -1,6 +1,7 @@
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import paginationArrow from '../assets/pagination-arrow.svg';
 import { CryptoContext } from '../context/CryptoContext.jsx';
+import PerPage from './PerPage.jsx';
 
 const Pagination = () => {
   let { currentPage, setCurrentPage, totalCoins } = useContext(CryptoContext);
@@ -48,7 +49,9 @@ const Pagination = () => {
           CoinGecko
         </a>
       </span>
+
       <div className='flex items-center'>
+        <PerPage />
         <ul className='flex items-center justify-end text-sm'>
           {
           currentPage !== 1 
