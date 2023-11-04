@@ -1,12 +1,23 @@
+import { useContext } from 'react';
 import selectIcon from '../assets/select-icon.svg';
+import { CryptoContext } from '../context/CryptoContext.jsx';
 
 const Sorting = () => {
+  let { setSortBy } = useContext(CryptoContext);
+
+  const handleSort = (e) => {
+    e.preventDefault();
+    let val = e.target.value;
+    setSortBy(val);
+  }
+
   return (
     <label className='relative flex justify-center items-center'>
       <span className='font-bold mr-2'>sort by:</span>
       <select name="sortby"
       className='rounded bg-gray-200 text-base pl-2 pr-10 py-0.5 leading-4 capitalize
-      focus:outline-0'>
+      focus:outline-0'
+      onClick={handleSort}>
         <option value='market_cap_asc'>
           market cap asc
         </option>
