@@ -1,6 +1,7 @@
 import Filters from '../components/Filters.jsx';
 import TableComponent from '../components/TableComponent.jsx';
 import Pagination from '../components/Pagination.jsx';
+import { Outlet } from 'react-router-dom';
 
 const Crypto = () => {
   return (
@@ -8,6 +9,7 @@ const Crypto = () => {
       <Filters />
       <TableComponent />
       <Pagination />
+      <Outlet />
     </section>
   )
 }
