@@ -5,7 +5,7 @@ import { CryptoContext } from '../context/CryptoContext.jsx';
 
 const CryptoDetails = () => {
   let { coinId } = useParams();
-  let { getCoinData, coinData } = useContext(CryptoContext);
+  let { getCoinData, coinData:data } = useContext(CryptoContext);
   let navigate = useNavigate();
 
   const closePopUp = () => {
@@ -27,9 +27,27 @@ const CryptoDetails = () => {
         e.stopPropagation()
       } }>
       {
-        coinData
+        data
         ? (
-          <h1>{coinData.id}</h1>
+        <div className='flex items-center justify-between h-full w-full p-4'>
+          <div className='flex flex-col w-[45%] h-full pr-2'>
+            <div className='flex w-full items-center'>
+              <img src={data.image.large} alt={data.id} 
+              className='w-[3rem] h-[3rem] mx-1.5'/>
+              <h1 className='text-xl capitalize font-medium'>
+                {data.name}
+              </h1>
+              <span className='text-sm py-0.5 px-2.5 ml-2
+              text-cyan bg-cyan bg-opacity-25
+              rounded uppercase'>
+                {data.symbol}
+              </span>
+            </div>
+          </div>
+          <div className='flex flex-col w-[55%] h-full pl-3 bg-green'>
+            Right
+          </div>
+        </div>
         ) :
         null
       }

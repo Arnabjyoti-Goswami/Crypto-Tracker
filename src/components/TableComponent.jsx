@@ -1,6 +1,7 @@
 import { CryptoContext } from '../context/CryptoContext.jsx';
 import { useContext } from 'react';
 import StarSvg from '../assets/StarSvg.jsx';
+import { Link } from 'react-router-dom';
 
 const TableComponent = () => {
   const { cryptoData, currency } = useContext(CryptoContext);
@@ -33,11 +34,15 @@ const TableComponent = () => {
               </button>
               <img className='w-[1.2rem] h-[1.2rem] mx-1.5' src={data.image} alt={data.name} />
               <span>
-                {data.symbol}
+                <Link to={`/${data.id}`} className='cursor-pointer'>
+                  {data.symbol}
+                </Link>
               </span>
             </td>
             <td className='py-4'>
-              {data.name}
+              <Link to={`/${data.id}`} className='cursor-pointer'>
+                {data.name}
+              </Link>
             </td>
             <td className='py-4'>
             {  
