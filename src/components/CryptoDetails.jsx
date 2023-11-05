@@ -1,8 +1,31 @@
-import { useContext, useLayoutEffect } from 'react';
+import { useContext, useLayoutEffect, useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { useNavigate, useParams } from 'react-router-dom';
 import { CryptoContext } from '../context/CryptoContext.jsx';
 import SelectIcon from '../assets/SelectIcon.jsx';
+
+const HighLowIndicator = ({currentPrice, high, low}) => {
+  const [green, setGreen] = useState();
+
+  useEffect( () => {
+    let total = high - low;
+    let greenZone = ((high - currentPrice)*100)/total;
+    setGreen(Math.ceil(greenZone));
+  }, [currentPrice, high, low] )
+
+  return(
+    <>
+      <span className='bg-red h-1.5 rounded-l-lg w-[50%]'
+      style={{ width: `${100 - green}%` }} >
+        &nbsp;
+      </span>
+      <span className='bg-green h-1.5 rounded-r-lg w-[50%]'
+      style={{ width: `${green}%` }} >
+        &nbsp;
+      </span>
+    </>
+  )
+}
 
 const CryptoDetails = () => {
   let { coinId } = useParams();
@@ -132,7 +155,11 @@ const CryptoDetails = () => {
               </h2>
             </div>
             <div className='w-full mt-4 flex justify-between'>
-              indicator
+              <HighLowIndicator 
+              currentPrice={data.market_data.current_price[currency]}
+              high={data.market_data.high_24h[currency]}
+              low={data.market_data.low_24h[currency]}
+              />
             </div>
             <div className='flex w-full mt-4 justify-between'>
               <div className='flex flex-col'>
