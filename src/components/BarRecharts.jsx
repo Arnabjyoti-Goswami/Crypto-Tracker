@@ -1,6 +1,6 @@
 import { BarChart, Bar, Cell, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import formatPrice from '../utils/formatPrice.js';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { CryptoContext } from '../context/CryptoContext.jsx';
 
 const CustomTooltip = ( { payload, label, active, currency = 'usd' } ) => {
@@ -25,25 +25,38 @@ const CustomTooltip = ( { payload, label, active, currency = 'usd' } ) => {
 const BarRecharts = ({data}) => {
   let { currency } = useContext(CryptoContext);
 
-  const colorArray = data.map((item, index) => {
-    const opacity = 0.7;
-    const initialCondition = true;
-    if (index === 0) {
-      return initialCondition ? `rgba(37, 218, 114, ${opacity})` : `rgba(214, 67, 110, ${opacity})`;
-    } else {
-      const previousItem = data[index - 1];
-      return item.total_volumes > previousItem.total_volumes ? `rgba(37, 218, 114, ${opacity})` : `rgba(214, 67, 110, ${opacity})`;
-    }
-  });
+  const [focusBar, setFocusBar] = useState(null);
+
+  const getColorArray = (opacity) => {
+    const colorArray = data.map((item, index) => {
+      const initialCondition = true;
+      if (index === 0) {
+        return initialCondition ? `rgba(37, 218, 114, ${opacity})` : `rgba(214, 67, 110, ${opacity})`;
+      } else {
+        const previousItem = data[index - 1];
+        return item.total_volumes > previousItem.total_volumes ? `rgba(37, 218, 114, ${opacity})` : `rgba(214, 67, 110, ${opacity})`;
+      }
+    });
+    return colorArray;
+  }
 
   return (
     <ResponsiveContainer height='30%'>
       <BarChart width={400} height={400} data={data} 
-      className='border border-gray-200'>
+      className='border border-gray-200'
+      onMouseMove={(state) => {
+        if (state.isTooltipActive) {
+          setFocusBar(state.activeTooltipIndex);
+        } else {
+          setFocusBar(null);
+        }
+     }}>
         <Bar dataKey='total_volumes'>
           {
           data.map( (entry, index) => (
-            <Cell key={`cell-${index}`} fill={colorArray[index % 20]} className='bg-opacity-25'/>
+            <Cell key={`cell-${index}`} fill={
+              focusBar === index ? getColorArray(1)[index % 20] : getColorArray(0.7)[index % 20]
+            } className='bg-opacity-25'/>
           ) )
           }
         </Bar>
