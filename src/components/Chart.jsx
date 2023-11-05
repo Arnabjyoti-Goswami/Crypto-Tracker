@@ -29,7 +29,16 @@ const Chart = ({id}) => {
 
   useLayoutEffect( () => {
     getChartData(id);
-  }, [id, chartDataType] );
+  }, [id, chartDataType, days] );
+
+  const dayOptions = [
+    { label: '1d', days: 1 },
+    { label: '14d', days: 14 },
+    { label: '30d', days: 30 },
+    { label: '90d', days: 90 },
+    { label: '365d', days: 365 },
+    { label: 'full', days: 'max' },
+  ];
 
   return (
     <div className='w-full h-[60%]'>
@@ -57,6 +66,26 @@ const Chart = ({id}) => {
         className='capitalize'>
           volume
         </button>
+        <div className='grid grid-cols-3'>
+          {
+          dayOptions.map( (option, index) => (
+            <button key={index}
+            className={`text-sm p-[1%]
+            border-t
+            ${index >= dayOptions.length - 3 ? 'border-b ' : ''}
+            border-l
+            ${(index + 1) % 3 === 0 ? 'border-r ' : ''}
+            border-gray-100
+            `}
+            onClick={ () => {
+              setDays(option.days) 
+            } }
+            >
+              {option.label}
+            </button>
+          ) )
+          }
+        </div>
       </div>
     </div>
   );
