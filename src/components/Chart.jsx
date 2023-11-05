@@ -32,7 +32,7 @@ const Chart = ({id}) => {
 
   return (
     <div className='w-full h-[60%]'>
-      <LineRecharts data={chartData} />
+      <LineRecharts data={chartData} currency={currency} />
     </div>
   );
 }
