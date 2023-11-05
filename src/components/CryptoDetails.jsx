@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { CryptoContext } from '../context/CryptoContext.jsx';
 import SelectIcon from '../assets/SelectIcon.jsx';
 import Chart from './Chart.jsx';
+import formatPrice from '../utils/formatPrice.js';
 
 const HighLowIndicator = ({currentPrice, high, low}) => {
   const [green, setGreen] = useState();
@@ -92,20 +93,8 @@ const CryptoDetails = () => {
                   </div>
                 </div>
                 <h2 className='text-lg font-bold'>
-                {  
-                new Intl.NumberFormat('en-IN', {
-                  style: 'currency',
-                  currency: currency,
-                  maximumFractionDigits: data.current_price < 1
-                  ? 6
-                  : data.current_price >= 1 && data.current_price < 10
-                    ? 5
-                    : data.current_price >= 10 && data.current_price < 100
-                      ? 4
-                      : data.current_price >= 100 && data.current_price < 1000
-                        ? 3
-                        : 2
-                }).format(data.market_data.current_price[currency])
+                {
+                  formatPrice(data.market_data.current_price[currency], currency)
                 }
                 </h2>
               </div>
@@ -168,20 +157,8 @@ const CryptoDetails = () => {
                   low 24H
                 </span>
                 <h2 className='text-base font-bold'>
-                {  
-                new Intl.NumberFormat('en-IN', {
-                  style: 'currency',
-                  currency: currency,
-                  maximumFractionDigits: data.current_price < 1
-                  ? 6
-                  : data.current_price >= 1 && data.current_price < 10
-                    ? 5
-                    : data.current_price >= 10 && data.current_price < 100
-                      ? 4
-                      : data.current_price >= 100 && data.current_price < 1000
-                        ? 3
-                        : 2
-                }).format(data.market_data.low_24h[currency])
+                {
+                  formatPrice(data.market_data.low_24h[currency], currency)
                 }
                 </h2>
               </div>
@@ -190,20 +167,8 @@ const CryptoDetails = () => {
                   high 24H
                 </span>
                 <h2 className='text-base font-bold'>
-                {  
-                new Intl.NumberFormat('en-IN', {
-                  style: 'currency',
-                  currency: currency,
-                  maximumFractionDigits: data.current_price < 1
-                  ? 6
-                  : data.current_price >= 1 && data.current_price < 10
-                    ? 5
-                    : data.current_price >= 10 && data.current_price < 100
-                      ? 4
-                      : data.current_price >= 100 && data.current_price < 1000
-                        ? 3
-                        : 2
-                }).format(data.market_data.high_24h[currency])
+                {
+                  formatPrice(data.market_data.high_24h[currency], currency)
                 }
                 </h2>
               </div>
@@ -214,7 +179,7 @@ const CryptoDetails = () => {
                   max supply
                 </span>
                 <h2 className='text-base font-bold'>
-                {  
+                {
                 new Intl.NumberFormat('en-IN', {
                   style: 'currency',
                   currency: currency,

@@ -2,6 +2,7 @@ import { CryptoContext } from '../context/CryptoContext.jsx';
 import { useContext } from 'react';
 import StarSvg from '../assets/StarSvg.jsx';
 import { Link } from 'react-router-dom';
+import formatPrice from '../utils/formatPrice.js';
 
 const TableComponent = () => {
   const { cryptoData, currency } = useContext(CryptoContext);
@@ -45,20 +46,8 @@ const TableComponent = () => {
               </Link>
             </td>
             <td className='py-4'>
-            {  
-              new Intl.NumberFormat('en-IN', {
-                style: 'currency',
-                currency: currency,
-                maximumFractionDigits: data.current_price < 1
-                ? 6
-                : data.current_price >= 1 && data.current_price < 10
-                  ? 5
-                  : data.current_price >= 10 && data.current_price < 100
-                    ? 4
-                    : data.current_price >= 100 && data.current_price < 1000
-                      ? 3
-                      : 2
-              }).format(data.current_price)
+            {
+              formatPrice(data.current_price, currency)
             }
             </td>
             <td className='py-4'>
