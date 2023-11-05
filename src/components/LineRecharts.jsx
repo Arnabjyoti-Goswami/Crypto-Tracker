@@ -19,14 +19,14 @@ const CustomTooltip = ( { payload, label, active, currency = 'usd' } ) => {
   }
 }
 
-const LineRecharts = ({data, currency}) => {
+const LineRecharts = ({data, currency, type}) => {
   return(
     <ResponsiveContainer height='90%'>
       <LineChart width={400} height={400} data={data}>
-        <Line type='monotone' dataKey='prices' stroke='#14ffec' strokeWidth='1px' />
+        <Line type='monotone' dataKey={type} stroke='#14ffec' strokeWidth='1px' />
         <CartesianGrid stroke='#323232' />
         <XAxis dataKey='date' hide />
-        <YAxis dataKey='prices' hide domain={['auto', 'auto']}/>
+        <YAxis dataKey={type} hide domain={['auto', 'auto']}/>
         <Tooltip content={<CustomTooltip />} currency={currency} cursor={false} wrapperStyle={{outline: 'none'}} />
         <Legend />
       </LineChart>
