@@ -40,6 +40,12 @@ const Chart = ({id}) => {
     { label: 'full', days: 'max' },
   ];
 
+  const chartDataTypeOptions = [
+    { label: 'price', type: 'prices' },
+    { label: 'market cap', type: 'market_caps' },
+    { label: 'volume', type: 'total_volumes' },
+  ];
+
   return (
     <div className='w-full h-[60%]'>
       {
@@ -47,26 +53,23 @@ const Chart = ({id}) => {
         <LineRecharts data={chartData} currency={currency} type={chartDataType} />
       ) : null
       }
-      <div className='flex'>
-        <button onClick={() => {
-          setChartDataType('prices')
-        }}
-        className='capitalize'>
-          price
-        </button>
-        <button onClick={() => {
-          setChartDataType('market_caps')
-        }}
-        className='capitalize'>
-          market cap
-        </button>
-        <button onClick={() => {
-          setChartDataType('total_volumes')
-        }}
-        className='capitalize'>
-          volume
-        </button>
-        <div className='grid grid-cols-3'>
+      <div className='flex items-center'>
+        {
+        chartDataTypeOptions.map( (option, index) => (
+          <button key={index}
+          onClick={ () => {
+            setChartDataType(option.type)
+          } }
+          className={`
+          capitalize bg-opacity-25 rounded 
+          py-0.5 px-1.5 ml-2 text-sm h-[5%]
+          ${chartDataType === option.type ? 'bg-cyan text-cyan' : 'bg-gray-200 text-gray-100'} 
+          `}>
+            {option.label}
+          </button>
+        ) )
+        }
+        <div className='grid grid-cols-3 ml-auto pr-[1%]'>
           {
           dayOptions.map( (option, index) => (
             <button key={index}
@@ -75,7 +78,12 @@ const Chart = ({id}) => {
             ${index >= dayOptions.length - 3 ? 'border-b ' : ''}
             border-l
             ${(index + 1) % 3 === 0 ? 'border-r ' : ''}
-            border-gray-100
+            ${index === 0 ? 'rounded-tl ': ''}
+            ${index === 2 ? 'rounded-tr ': ''}
+            ${index === (dayOptions.length - 3) ? 'rounded-bl ': ''}
+            ${index === (dayOptions.length - 1) ? 'rounded-br ': ''}
+            ${days === option.days ? 'bg-cyan text-cyan border-cyan border-opacity-25' : 'bg-gray-200 text-gray-100 border-gray-200'}
+            bg-opacity-25
             `}
             onClick={ () => {
               setDays(option.days) 
