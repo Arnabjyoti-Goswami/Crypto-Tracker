@@ -1,27 +1,49 @@
 import { useContext, useLayoutEffect, useState } from 'react';
 import { CryptoContext }  from '../context/CryptoContext.jsx';
 import LineRecharts from './LineRecharts.jsx';
+import BarRecharts from './BarRecharts.jsx';
 
 const Chart = ({id}) => {
   const { currency } = useContext(CryptoContext);
   const [days, setDays] = useState(30);
   const [interval, setInterval] = useState('daily');
   const [chartDataType, setChartDataType] = useState('prices');
-  const [chartData, setChartData] = useState();
+  const [pricesData, setPricesData] = useState();
+  const [marketCapData, setMarketCapData] = useState();
+  const [volumeData, setVolumeData] = useState();
 
   const getChartData = async (id) => {
     try {
-      const data = await fetch(`https://api.coingecko.com/api/v3/coins/${id}/market_chart?vs_currency=${currency}&days=${days}&interval=daily&precision=full`).then((res) => res.json()).then((json) => json);
+      const data = await fetch(`https://api.coingecko.com/api/v3/coins/${id}/market_chart?vs_currency=${currency}&days=${days}&interval=${interval}&precision=full`).then((res) => res.json()).then((json) => json);
       console.log(data);
       
-      let convertedPricesData = data[chartDataType].map(item => {       
+      let pricesChartData = data.prices.map(item => {       
         return {
           date: new Date(item[0]).toLocaleDateString() ,
           [chartDataType]: item[1] ,
         }
       });
-      console.log("chart-data", convertedPricesData);
-      setChartData(convertedPricesData);
+      console.log('Prices Chart Data', pricesChartData);
+      setPricesData(pricesChartData);
+
+      let marketCapChartData = data.market_caps.map(item => {       
+        return {
+          date: new Date(item[0]).toLocaleDateString() ,
+          [chartDataType]: item[1] ,
+        }
+      });
+      console.log('Market Cap Chart Data', marketCapChartData);
+      setMarketCapData(marketCapChartData);
+
+      let volumeChartData = data.total_volumes.map(item => {
+        return {
+          date: new Date(item[0]).toLocaleDateString() ,
+          total_volumes: item[1] ,
+        }
+      });
+      console.log('volumeChartData', volumeChartData);
+      setVolumeData(volumeChartData);
+
     } catch (error) {
       console.log(error);
     }
@@ -29,7 +51,7 @@ const Chart = ({id}) => {
 
   useLayoutEffect( () => {
     getChartData(id);
-  }, [id, chartDataType, days] );
+  }, [id, days] );
 
   const dayOptions = [
     { label: '1d', days: 1 },
@@ -43,17 +65,21 @@ const Chart = ({id}) => {
   const chartDataTypeOptions = [
     { label: 'price', type: 'prices' },
     { label: 'market cap', type: 'market_caps' },
-    { label: 'volume', type: 'total_volumes' },
   ];
 
   return (
     <div className='w-full h-[60%]'>
       {
-      chartData ? (
-        <LineRecharts data={chartData} currency={currency} type={chartDataType} />
+      (pricesData && marketCapData && volumeData) ? (
+        <>
+          <LineRecharts data={
+            (chartDataType === 'prices') ? pricesData : marketCapData
+            } marketCapData={marketCapData} currency={currency} type={chartDataType} />
+          <BarRecharts data={volumeData} currency={currency} />
+        </>
       ) : null
       }
-      <div className='flex items-center'>
+      <div className='flex items-center mt-2'>
         {
         chartDataTypeOptions.map( (option, index) => (
           <button key={index}
