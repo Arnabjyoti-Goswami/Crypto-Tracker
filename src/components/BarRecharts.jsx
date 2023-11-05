@@ -41,7 +41,7 @@ const BarRecharts = ({data}) => {
   }
 
   return (
-    <ResponsiveContainer height='30%'>
+    <ResponsiveContainer height='25%'>
       <BarChart width={400} height={400} data={data} 
       className='border border-gray-200'
       onMouseMove={(state) => {

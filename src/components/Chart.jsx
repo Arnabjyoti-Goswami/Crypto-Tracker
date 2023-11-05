@@ -2,6 +2,7 @@ import { useContext, useLayoutEffect, useState } from 'react';
 import { CryptoContext }  from '../context/CryptoContext.jsx';
 import LineRecharts from './LineRecharts.jsx';
 import BarRecharts from './BarRecharts.jsx';
+import OBV from './Indicators/OBV.jsx';
 
 const Chart = ({id}) => {
   const { currency } = useContext(CryptoContext);
@@ -20,7 +21,7 @@ const Chart = ({id}) => {
       let pricesChartData = data.prices.map(item => {       
         return {
           date: new Date(item[0]).toLocaleDateString() ,
-          [chartDataType]: item[1] ,
+          prices : item[1] ,
         }
       });
       console.log('Prices Chart Data', pricesChartData);
@@ -29,7 +30,7 @@ const Chart = ({id}) => {
       let marketCapChartData = data.market_caps.map(item => {       
         return {
           date: new Date(item[0]).toLocaleDateString() ,
-          [chartDataType]: item[1] ,
+          market_caps : item[1] ,
         }
       });
       console.log('Market Cap Chart Data', marketCapChartData);
@@ -68,58 +69,61 @@ const Chart = ({id}) => {
   ];
 
   return (
-    <div className='w-full h-[60%]'>
-      {
-      (pricesData && marketCapData && volumeData) ? (
-        <>
-          <LineRecharts data={
-            (chartDataType === 'prices') ? pricesData : marketCapData
-            } marketCapData={marketCapData} currency={currency} type={chartDataType} />
-          <BarRecharts data={volumeData} currency={currency} />
-        </>
-      ) : null
-      }
-      <div className='flex items-center mt-2'>
+    <div className='w-full h-full relative'>
+      <div className='w-full h-[60%]'>
         {
-        chartDataTypeOptions.map( (option, index) => (
-          <button key={index}
-          onClick={ () => {
-            setChartDataType(option.type)
-          } }
-          className={`
-          capitalize bg-opacity-25 rounded 
-          py-0.5 px-1.5 ml-2 text-sm h-[5%]
-          ${chartDataType === option.type ? 'bg-cyan text-cyan' : 'bg-gray-200 text-gray-100'} 
-          `}>
-            {option.label}
-          </button>
-        ) )
+        (pricesData && marketCapData && volumeData) ? (
+          <>
+            <LineRecharts data={
+              (chartDataType === 'prices') ? pricesData : marketCapData
+              } marketCapData={marketCapData} currency={currency} type={chartDataType} />
+            <BarRecharts data={volumeData} currency={currency} />
+          </>
+        ) : null
         }
-        <div className='grid grid-cols-3 ml-auto pr-[1%]'>
+        <div className='flex items-center mt-2 mb-1'>
           {
-          dayOptions.map( (option, index) => (
+          chartDataTypeOptions.map( (option, index) => (
             <button key={index}
-            className={`text-sm p-[1%]
-            border-t
-            ${index >= dayOptions.length - 3 ? 'border-b ' : ''}
-            border-l
-            ${(index + 1) % 3 === 0 ? 'border-r ' : ''}
-            ${index === 0 ? 'rounded-tl ': ''}
-            ${index === 2 ? 'rounded-tr ': ''}
-            ${index === (dayOptions.length - 3) ? 'rounded-bl ': ''}
-            ${index === (dayOptions.length - 1) ? 'rounded-br ': ''}
-            ${days === option.days ? 'bg-cyan text-cyan border-cyan border-opacity-25' : 'bg-gray-200 text-gray-100 border-gray-200'}
-            bg-opacity-25
-            `}
             onClick={ () => {
-              setDays(option.days) 
+              setChartDataType(option.type)
             } }
-            >
+            className={`
+            capitalize bg-opacity-25 rounded 
+            py-0.5 px-1.5 ml-2 text-sm h-[5%]
+            ${chartDataType === option.type ? 'bg-cyan text-cyan' : 'bg-gray-200 text-gray-100'} 
+            `}>
               {option.label}
             </button>
           ) )
           }
+          <div className='grid grid-cols-3 ml-auto pr-[1%]'>
+            {
+            dayOptions.map( (option, index) => (
+              <button key={index}
+              className={`text-sm p-[1%]
+              border-t
+              ${index >= dayOptions.length - 3 ? 'border-b ' : ''}
+              border-l
+              ${(index + 1) % 3 === 0 ? 'border-r ' : ''}
+              ${index === 0 ? 'rounded-tl ': ''}
+              ${index === 2 ? 'rounded-tr ': ''}
+              ${index === (dayOptions.length - 3) ? 'rounded-bl ': ''}
+              ${index === (dayOptions.length - 1) ? 'rounded-br ': ''}
+              ${days === option.days ? 'bg-cyan text-cyan border-cyan border-opacity-25' : 'bg-gray-200 text-gray-100 border-gray-200'}
+              bg-opacity-25
+              `}
+              onClick={ () => {
+                setDays(option.days) 
+              } }
+              >
+                {option.label}
+              </button>
+            ) )
+            }
+          </div>
         </div>
+        <OBV priceData={pricesData} volumeData={volumeData} currency={currency} />
       </div>
     </div>
   );
