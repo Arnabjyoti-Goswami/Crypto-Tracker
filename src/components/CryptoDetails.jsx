@@ -212,28 +212,28 @@ const CryptoDetails = () => {
             </div>
             <div className='flex w-full mt-4 justify-between'>
               <div className='flex flex-col'>
-                <a href={data?.links?.homepage[0]} 
+                <a className='text-sm bg-gray-200 text-gray-100 px-1.5 py-0.5 my-1 rounded' href={data?.links?.homepage[0]} 
                 rel='noreferrer' target='_blank'>
                   {data?.links?.homepage[0].substring(0,30)}
                 </a>
-                <a href={data?.links?.blockchain_site[0]}
+                <a className='text-sm bg-gray-200 text-gray-100 px-1.5 py-0.5 my-1 rounded' href={data?.links?.blockchain_site[0]}
                 rel='noreferrer' target='_blank'>
                   {data?.links?.blockchain_site[0].substring(0,30)}
                 </a>
                 {
                 data.links.official_forum_url[0] ?
-                <a href={data?.links?.official_forum_url[0]}
+                <a className='text-sm bg-gray-200 text-gray-100 px-1.5 py-0.5 my-1 rounded' href={data?.links?.official_forum_url[0]}
                 rel='noreferrer' target='_blank'>
                   {data?.links?.official_forum_url[0].substring(0,30)}
                 </a> : null
                 }
               </div>
               <div className='flex flex-col content-start'>
-                <span>
+                <span className='text-sm capitalize text-gray-100'>
                   sentiment
                 </span>
                 <div className='flex justify-between'>
-                  <div className='text-sm px-1 ml-2 my-1 font-medium
+                  <div className='text-sm px-1 my-1 font-medium
                   flex items-center rounded uppercase
                   bg-opacity-25
                 bg-green text-green'
@@ -247,7 +247,7 @@ const CryptoDetails = () => {
                   </div>
                 </div>
                 <div className='flex justify-between'>
-                  <div className='text-sm px-1 ml-2 my-1  font-medium
+                  <div className='text-sm px-1 my-1  font-medium
                   flex items-center rounded uppercase
                   bg-opacity-25
                 bg-red text-red'
