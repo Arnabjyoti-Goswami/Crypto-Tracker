@@ -86,6 +86,51 @@ const CryptoDetails = () => {
                 </h2>
               </div>
             </div>
+            <div className='flex w-full mt-4 justify-between'>
+              <div className='flex flex-col'>
+                <span className='text-sm capitalize text-gray-100'>
+                  Market Cap
+                </span>
+                <h2 className='text-base font-bold'>
+                {  
+                new Intl.NumberFormat('en-IN', {
+                  style: 'currency',
+                  currency: currency,
+                  maximumFractionDigits: 2,minimumFractionDigits: 0,
+                }).format(data.market_data.market_cap[currency])
+                }
+                </h2>
+              </div>
+              <div className='flex flex-col'>
+                <span className='text-sm capitalize text-gray-100'>
+                  fully diluted valuation
+                </span>
+                <h2 className='text-base font-bold'>
+                {  
+                new Intl.NumberFormat('en', {
+                  style: 'currency',
+                  currency: currency,
+                  notation: 'compact',
+                }).format(data.market_data.fully_diluted_valuation[currency])
+                }
+                </h2>
+              </div>
+            </div>
+            <div className='flex flex-col w-full mt-4 justify-between'>
+              <span className='text-sm capitalize text-gray-100'>
+                total volume
+              </span>
+              <h2 className='text-base font-bold'>
+              {  
+              new Intl.NumberFormat('en-IN', {
+                style: 'currency',
+                currency: currency,
+                maximumFractionDigits: 2,
+                minimumFractionDigits: 0,
+              }).format(data.market_data.total_volume[currency])
+              }
+              </h2>
+            </div>
           </div>
 
           <div className='flex flex-col w-[55%] h-full pl-3 bg-green'>
