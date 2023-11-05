@@ -131,6 +131,137 @@ const CryptoDetails = () => {
               }
               </h2>
             </div>
+            <div className='w-full mt-4 flex justify-between'>
+              indicator
+            </div>
+            <div className='flex w-full mt-4 justify-between'>
+              <div className='flex flex-col'>
+                <span className='text-sm capitalize text-gray-100'>
+                  low 24H
+                </span>
+                <h2 className='text-base font-bold'>
+                {  
+                new Intl.NumberFormat('en-IN', {
+                  style: 'currency',
+                  currency: currency,
+                  maximumFractionDigits: data.current_price < 1
+                  ? 6
+                  : data.current_price >= 1 && data.current_price < 10
+                    ? 5
+                    : data.current_price >= 10 && data.current_price < 100
+                      ? 4
+                      : data.current_price >= 100 && data.current_price < 1000
+                        ? 3
+                        : 2
+                }).format(data.market_data.low_24h[currency])
+                }
+                </h2>
+              </div>
+              <div className='flex flex-col'>
+                <span className='text-sm capitalize text-gray-100'>
+                  high 24H
+                </span>
+                <h2 className='text-base font-bold'>
+                {  
+                new Intl.NumberFormat('en-IN', {
+                  style: 'currency',
+                  currency: currency,
+                  maximumFractionDigits: data.current_price < 1
+                  ? 6
+                  : data.current_price >= 1 && data.current_price < 10
+                    ? 5
+                    : data.current_price >= 10 && data.current_price < 100
+                      ? 4
+                      : data.current_price >= 100 && data.current_price < 1000
+                        ? 3
+                        : 2
+                }).format(data.market_data.high_24h[currency])
+                }
+                </h2>
+              </div>
+            </div>
+            <div className='flex w-full mt-4 justify-between'>
+              <div className='flex flex-col'>
+                <span className='text-sm capitalize text-gray-100'>
+                  max supply
+                </span>
+                <h2 className='text-base font-bold'>
+                {  
+                new Intl.NumberFormat('en-IN', {
+                  style: 'currency',
+                  currency: currency,
+                  minimumFractionDigits: 0,
+                }).format(data.market_data.max_supply)
+                }
+                </h2>
+              </div>
+              <div className='flex flex-col'>
+                <span className='text-sm capitalize text-gray-100'>
+                  circulating supply
+                </span>
+                <h2 className='text-base font-bold'>
+                {  
+                new Intl.NumberFormat('en-IN', {
+                  style: 'currency',
+                  currency: currency,
+                  minimumFractionDigits: 0,
+                }).format(data.market_data.circulating_supply)
+                }
+                </h2>
+              </div>
+            </div>
+            <div className='flex w-full mt-4 justify-between'>
+              <div className='flex flex-col'>
+                <a href={data?.links?.homepage[0]} 
+                rel='noreferrer' target='_blank'>
+                  {data?.links?.homepage[0].substring(0,30)}
+                </a>
+                <a href={data?.links?.blockchain_site[0]}
+                rel='noreferrer' target='_blank'>
+                  {data?.links?.blockchain_site[0].substring(0,30)}
+                </a>
+                {
+                data.links.official_forum_url[0] ?
+                <a href={data?.links?.official_forum_url[0]}
+                rel='noreferrer' target='_blank'>
+                  {data?.links?.official_forum_url[0].substring(0,30)}
+                </a> : null
+                }
+              </div>
+              <div className='flex flex-col content-start'>
+                <span>
+                  sentiment
+                </span>
+                <div className='flex justify-between'>
+                  <div className='text-sm px-1 ml-2 my-1 font-medium
+                  flex items-center rounded uppercase
+                  bg-opacity-25
+                bg-green text-green'
+                  >
+                    <span>
+                      {Number(data.sentiment_votes_up_percentage).toFixed(2)}%
+                    </span>
+                    <SelectIcon upTrend={
+                      true
+                    }/>
+                  </div>
+                </div>
+                <div className='flex justify-between'>
+                  <div className='text-sm px-1 ml-2 my-1  font-medium
+                  flex items-center rounded uppercase
+                  bg-opacity-25
+                bg-red text-red'
+                  >
+                    <span>
+                      {Number(data.sentiment_votes_down_percentage).toFixed(2)}%
+                    </span>
+                    <SelectIcon upTrend={
+                      false
+                    }/>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
           <div className='flex flex-col w-[55%] h-full pl-3 bg-green'>
