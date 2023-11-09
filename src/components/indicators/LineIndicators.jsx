@@ -15,7 +15,7 @@ const CustomizedDot = ({ cx, cy, stroke, payload, value }) => {
   }
 };
 
-const CustomTooltip = ( { payload, label, active, type, currency = 'usd' } ) => {
+const CustomTooltip = ( { payload, label, active, type, isPercent, currency = 'usd' } ) => {
   if(active) {
     return (
       <div className='custom-tooltip'>
@@ -24,9 +24,16 @@ const CustomTooltip = ( { payload, label, active, type, currency = 'usd' } ) => 
             <span className='opacity-75'>
               Date: {label}
             </span>
-            <span>
-              {type}: {formatPrice(payload[0].value, currency)}
-            </span>
+            {
+              isPercent ? (
+              <span>
+                {type}: {Number(payload[0].value).toFixed(2)}
+              </span>
+              ) : 
+              <span>
+                {type}: {formatPrice(payload[0].value, currency)}
+              </span>
+            }
           </div>
         </p>
       </div>
@@ -34,7 +41,7 @@ const CustomTooltip = ( { payload, label, active, type, currency = 'usd' } ) => 
   }
 }
 
-const LineIndicators = ({data, currency, type}) => {
+const LineIndicators = ({data, currency, type, isPercent}) => {
   return(
     <ResponsiveContainer height='35%'>
       <LineChart width={400} height={400} data={data}
@@ -42,7 +49,7 @@ const LineIndicators = ({data, currency, type}) => {
         <Line type='monotone' dataKey={type} stroke='#BF55EC' strokeWidth='1px' dot={<CustomizedDot />} />
         <XAxis dataKey='date' hide />
         <YAxis dataKey={type} hide domain={['auto', 'auto']}/>
-        <Tooltip content={<CustomTooltip />} currency={currency} cursor={false} wrapperStyle={{outline: 'none'}} type={type} />
+        <Tooltip content={<CustomTooltip />} currency={currency} cursor={false} wrapperStyle={{outline: 'none'}} type={type} isPercent={isPercent} />
       </LineChart>
     </ResponsiveContainer>
   )

@@ -42,7 +42,7 @@ const RSI = ({ priceData, volumeData, currency, period }) => {
       const rsi = 100 * ( 1 - (1 / (1 + rs)) );
       
       return {
-        data: date,
+        date: date,
         rsi: rsi,
       }
     } )
@@ -52,7 +52,7 @@ const RSI = ({ priceData, volumeData, currency, period }) => {
     <>
     {
     rsiData ? 
-      <LineIndicators data={rsiData} currency={currency} type={'rsi'} />
+      <LineIndicators data={rsiData} currency={currency} type={'rsi'} isPercent={true} />
     : null
     }
     </>
