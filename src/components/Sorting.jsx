@@ -8,8 +8,18 @@ const Sorting = () => {
   const handleSort = (e) => {
     e.preventDefault();
     let val = e.target.value;
+    e.target.placeholder = val;
     setSortBy(val);
   }
+
+  const sortingOptions = [
+    { val: 'market_cap_asc', label: 'market cap asc'},
+    { val: 'market_cap_desc', label: 'market cap desc'},
+    { val: 'volume_asc', label: 'volume asc'},
+    { val: 'volume_desc', label: 'volume desc'},
+    { val: 'id_asc', label: 'id asc'},
+    { val: 'id_desc', label: 'id desc'},
+  ];
 
   return (
     <label className='relative flex justify-center items-center'>
@@ -20,24 +30,13 @@ const Sorting = () => {
       value={sortBy}
       onChange={handleSort}
       >
-        <option value='market_cap_asc'>
-          market cap asc
+      {
+      sortingOptions.map( (item, index) => (
+        <option value={item.val} key={`option ${index}`}>
+          {item.label}
         </option>
-        <option value='market_cap_desc'>
-          market cap desc
-        </option>
-        <option value='volume_asc'>
-          volume asc
-        </option>
-        <option value='volume_desc'>
-          volume desc
-        </option>
-        <option value='id_asc'>
-          id asc
-        </option>
-        <option value='id_desc'>
-          id desc
-        </option>
+      ) )
+      }
       </select>
       <img src={selectIcon} alt='sort' className='w-[1rem] h-auto absolute right-1 top-2 pointer-events-none'/>
     </label>
