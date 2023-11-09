@@ -9,7 +9,7 @@ export default {
       fontFamily: { nunito: "Nunito" },
     },
     colors: {
-      gray: { 100: "#808080", 200: "#323232", 300: "#212121" },
+      gray: { 50: "#a6a4a4", 100: "#808080", 200: "#323232", 300: "#212121" },
       white: "#fff",
       cyan: "#14ffec",
       red: "#d6436e",

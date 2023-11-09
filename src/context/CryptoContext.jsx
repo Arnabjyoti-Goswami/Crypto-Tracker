@@ -66,6 +66,8 @@ export const CryptoProvider = ({children}) => {
     }
   }
   
+  const [indicatorType, setIndicatorType] = useState('obv');
+
   return (
     <CryptoContext.Provider 
     value={ { 
@@ -80,8 +82,8 @@ export const CryptoProvider = ({children}) => {
       totalCoins,
       resetHomePage,
       coinsPerPage, setCoinsPerPage,
-      coinData,
-      getCoinData,
+      coinData, getCoinData,
+      indicatorType, setIndicatorType,
     } }>
       {children}
     </CryptoContext.Provider>

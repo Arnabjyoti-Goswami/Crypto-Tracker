@@ -2,7 +2,7 @@ import { useContext, useLayoutEffect, useState } from 'react';
 import { CryptoContext }  from '../context/CryptoContext.jsx';
 import LineRecharts from './LineRecharts.jsx';
 import BarRecharts from './BarRecharts.jsx';
-import OBV from './Indicators/OBV.jsx';
+import { IndicatorSelector, IndicatorGraph } from './indicators/Indicators.jsx';
 
 const Chart = ({id}) => {
   const { currency } = useContext(CryptoContext);
@@ -97,6 +97,7 @@ const Chart = ({id}) => {
             </button>
           ) )
           }
+          <IndicatorSelector />
           <div className='grid grid-cols-3 ml-auto pr-[1%]'>
             {
             dayOptions.map( (option, index) => (
@@ -123,7 +124,7 @@ const Chart = ({id}) => {
             }
           </div>
         </div>
-        <OBV priceData={pricesData} volumeData={volumeData} currency={currency} />
+        <IndicatorGraph priceData={pricesData} volumeData={volumeData} currency={currency} />
       </div>
     </div>
   );

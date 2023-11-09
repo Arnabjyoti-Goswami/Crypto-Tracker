@@ -1,7 +1,7 @@
 import { useLayoutEffect, useState } from 'react';
 import LineIndicators from './LineIndicators.jsx';
 
-const OBV = ({priceData, volumeData, currency}) => {
+const OBV = ({priceData, volumeData, currency, period}) => {
   const [obvData, setObvData] = useState();
 
   useLayoutEffect( () => {
