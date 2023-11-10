@@ -5,11 +5,13 @@ import selectIcon from '../../assets/select-icon.svg';
 import RSI from './RSI.jsx';
 import OBV from './OBV.jsx';
 import MACD from './MACD.jsx';
+import EMA from './EMA.jsx';
 
 const indicatorOptions = [
   { label: 'rsi', component: RSI },
   { label: 'obv', component: OBV },
   { label: 'macd', component: MACD },
+  { label: 'ema', component: EMA },
 ];
 
 const IndicatorSelector = () => {

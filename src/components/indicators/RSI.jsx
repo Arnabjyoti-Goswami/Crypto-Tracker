@@ -1,9 +1,8 @@
 import { useLayoutEffect, useState } from 'react';
 import LineIndicators from './LineIndicators.jsx';
+import rollingAverage from './rollingAverage.js';
 
 const RSI = ({ priceData, volumeData, currency, period }) => {
-  period -= 1; // convert to 0 indexing
-  console.log('priceData', priceData)
   const [rsiData, setRsiData] = useState();
 
   useLayoutEffect( () => {
@@ -15,37 +14,42 @@ const RSI = ({ priceData, volumeData, currency, period }) => {
   }, [priceData] )
 
   const getRsiData = (priceData, period) => {
-    return priceData.map( (priceItem, index) => {
-      const date = priceItem.date;
-      let avgGain = 0, avgLoss = 0;
+    const result = [];
 
-      let lowerLimit = 0;
-      if(index > period) {
-        lowerLimit = index - period;
+    result.push({
+      date: priceData[0].date,
+      rsi: 0,
+    })
+
+    const gains = [], losses = [];
+    for (let i = 1; i < priceData.length; i++) {
+      const price = priceData[i].prices;
+      const prevPrice = priceData[i-1].prices;
+      if (price > prevPrice) {
+        gains.push(price - prevPrice);
+        losses.push(0);
+      } else if (price === prevPrice) {
+        gains.push(0);
+        losses.push(0);
       } else {
-        lowerLimit = 1;
+        losses.push(prevPrice - price);
+        gains.push(0);
       }
+    }
 
-      for(let i = lowerLimit; i < index; i++) {
-        let gain = priceData[i].prices - priceData[i-1].prices;
-        if(gain > 0) {
-          avgGain += gain;
-        } else if (gain < 0) {
-          gain *= -1;
-          avgLoss += gain;
-        }
-      }
-      avgGain /= period;
-      avgLoss /= period;
+    const avgGains = rollingAverage(gains, period);
+    const avgLosses = rollingAverage(losses, period);
 
-      const rs = avgGain / avgLoss;
-      const rsi = 100 * ( 1 - (1 / (1 + rs)) );
-      
-      return {
-        date: date,
-        rsi: rsi,
-      }
-    } )
+    for (let i = 1; i < priceData.length; i++) {
+      const rs = avgGains[i-1] / avgLosses[i-1];
+      const rsiValue = 100 * ( 1 - (1 / (1 + rs)) );
+      result.push({
+        date: priceData[i].date,
+        rsi: rsiValue,
+      });
+    }
+
+    return result;
   }
 
   return(
