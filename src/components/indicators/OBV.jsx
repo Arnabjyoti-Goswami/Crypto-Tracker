@@ -39,7 +39,8 @@ const OBV = ({priceData, volumeData, currency, period}) => {
     <>
     {
     obvData ? 
-      <LineIndicators data={obvData} currency={currency} type={'obv'} isPercent={false} />
+      <LineIndicators isPercent={false} currency={currency} 
+      data={obvData} types={['obv']} />
     : null
     }
     </>

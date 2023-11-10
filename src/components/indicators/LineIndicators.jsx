@@ -1,6 +1,7 @@
 import { ResponsiveContainer, LineChart, Line, XAxis, YAxis,
 Tooltip } from 'recharts';
 import formatPrice from '../../utils/formatPrice.js';
+import React from 'react';
 
 const CustomizedDot = ({ cx, cy, stroke, payload, value }) => {
   if (payload.visible) {
@@ -15,41 +16,58 @@ const CustomizedDot = ({ cx, cy, stroke, payload, value }) => {
   }
 };
 
-const CustomTooltip = ( { payload, label, active, type, isPercent, currency = 'usd' } ) => {
-  if(active) {
+const CustomTooltip = ( { payload, label, active, types, isPercent, currency = 'usd' } ) => {
+  if (active) {
     return (
       <div className='custom-tooltip'>
-        <p className='label text-sm text-cyan'>
-          <div className='flex flex-col'>
-            <span className='opacity-75'>
-              Date: {label}
+        <p className='label text-sm text-cyan flex flex-col'>
+          <span className='opacity-75'>
+            Date: {label}
+          </span>
+          {
+          types.map( (type, index) => (
+            <span key={`Tooltip ${type}`}>
+              {type}: {isPercent ? 
+              Number(payload[index].value).toFixed(2) : 
+              formatPrice(payload[index].value, currency)}
             </span>
-            {
-              isPercent ? (
-              <span>
-                {type}: {Number(payload[0].value).toFixed(2)}
-              </span>
-              ) : 
-              <span>
-                {type}: {formatPrice(payload[0].value, currency)}
-              </span>
-            }
-          </div>
+          ) )
+          }
         </p>
       </div>
     );
   }
 }
 
-const LineIndicators = ({data, currency, type, isPercent}) => {
+const LineIndicators = ({ isPercent, currency, data, types }) => {
+  console.log(data);
   return(
     <ResponsiveContainer height='35%'>
       <LineChart width={400} height={400} data={data}
       className='border border-gray-200'>
-        <Line type='monotone' dataKey={type} stroke='#BF55EC' strokeWidth='1px' dot={<CustomizedDot />} />
+        {
+        types.map( (type, index) => (
+          <React.Fragment key={`LineGraph ${index}`}>
+            <Line
+            type='monotone'
+            dataKey={type} 
+            stroke={`${index === 0 ? '#BF55EC' : '#8884d8'}`} 
+            strokeWidth='1px' 
+            dot={<CustomizedDot />} 
+            style={index===1 ? { strokeDasharray: '4 4' } : null}
+            yAxisId={`YAxis ${index}`}
+            />
+            <YAxis
+            yAxisId={`YAxis ${index}`} 
+            dataKey={type} 
+            hide domain={['auto', 'auto']} />
+          </React.Fragment>
+        ) )
+        }
         <XAxis dataKey='date' hide />
-        <YAxis dataKey={type} hide domain={['auto', 'auto']}/>
-        <Tooltip content={<CustomTooltip />} currency={currency} cursor={false} wrapperStyle={{outline: 'none'}} type={type} isPercent={isPercent} />
+        <Tooltip content={<CustomTooltip />} cursor={false} wrapperStyle={{outline: 'none'}}
+        currency={currency} types={types} isPercent={isPercent} />
+        {/* <Tooltip /> */}
       </LineChart>
     </ResponsiveContainer>
   )

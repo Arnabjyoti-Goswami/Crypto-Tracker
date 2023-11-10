@@ -1,6 +1,6 @@
 import { useLayoutEffect, useState } from 'react';
 import LineIndicators from './LineIndicators.jsx';
-import rollingAverage from './rollingAverage.js';
+import rollingAverage from './utils/rollingAverage.js';
 
 const RSI = ({ priceData, volumeData, currency, period }) => {
   const [rsiData, setRsiData] = useState();
@@ -56,7 +56,8 @@ const RSI = ({ priceData, volumeData, currency, period }) => {
     <>
     {
     rsiData ? 
-      <LineIndicators data={rsiData} currency={currency} type={'rsi'} isPercent={true} />
+      <LineIndicators isPercent={true} currency={currency}
+      data={rsiData} types={['rsi']} />
     : null
     }
     </>
