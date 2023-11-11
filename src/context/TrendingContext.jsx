@@ -8,8 +8,8 @@ export const TrendingProvider = ({children}) => {
   const getTrendingData = async () => {
     try {
       const data = await fetch(`https://api.coingecko.com/api/v3/search/trending`).then(res => res.json()).then(json => json);
-      console.log(data);
-      setTrendingData(data);
+      console.log('Trending Page data', data);
+      setTrendingData(data.coins);
     } catch(error) {
       console.log(error);
     }

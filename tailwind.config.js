@@ -7,6 +7,9 @@ export default {
   theme: {
     extend: {
       fontFamily: { nunito: "Nunito" },
+      screens: {
+        's' : {'min': '0px', 'max': '680px'},
+      },
     },
     colors: {
       gray: { 50: "#a6a4a4", 100: "#808080", 200: "#323232", 300: "#212121" },

@@ -1,16 +1,21 @@
-const formatPrice = (price, currency) => {
+const getFractionDigits = (price, digitsToDisplay) => {
+  let fractionDigits = digitsToDisplay;
+
+  while (price >= 10 && fractionDigits > 2) {
+    price /= 10;
+    fractionDigits--;
+  }
+
+  return fractionDigits;
+};
+
+const formatPrice = (price, currency, digitsToDisplay=6) => {
+  const numFractionDigits = getFractionDigits(price, digitsToDisplay);
+
   return new Intl.NumberFormat('en-IN', {
     style: 'currency',
     currency: currency,
-    maximumFractionDigits: price < 1
-    ? 6
-    : price >= 1 && price < 10
-      ? 5
-      : price >= 10 && price < 100
-        ? 4
-        : price >= 100 && price < 1000
-          ? 3
-          : 2
+    maximumFractionDigits: numFractionDigits,
   }).format(price);
 }
 
