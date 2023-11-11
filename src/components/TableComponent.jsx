@@ -5,17 +5,24 @@ import { Link } from 'react-router-dom';
 import formatPrice from '../utils/formatPrice.js';
 
 const SaveButton = ({data}) => {
-  const { saveCoin } = useContext(StorageContext);
+  const { allCoins, saveCoin, removeCoin } = useContext(StorageContext);
 
   const handleClick = (e) => {
     e.preventDefault();
-    saveCoin(data.id);
+    if(allCoins.includes(data.id)){
+      removeCoin(data.id);
+    } else {
+      saveCoin(data.id);
+    }
   }
+
 
   return (
     <button className='outline-0 border-0 bg-none cursor-pointer'
     onClick={(e) => handleClick(e)}>
-      <StarIcon />
+      <StarIcon borderHighLighted={
+        allCoins.includes(data.id)
+      } />
     </button>
   );
 }

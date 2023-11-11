@@ -7,14 +7,16 @@ export const StorageProvider = ({children}) => {
   
   const saveCoin = (coinId) => {
     let alreadySavedCoins = JSON.parse(localStorage.getItem('coins'));
-
-    if(alreadySavedCoins.includes(coinId)) {
-      return null;
-    } else {
-      let newAllCoins = [...alreadySavedCoins, coinId];
-      setAllCoins(newAllCoins);
-      localStorage.setItem('coins', JSON.stringify(newAllCoins));
-    }
+    let newAllCoins = [...alreadySavedCoins, coinId];
+    setAllCoins(newAllCoins);
+    localStorage.setItem('coins', JSON.stringify(newAllCoins));
+  }
+  
+  const removeCoin = (coinId) => {
+    let alreadySavedCoins = JSON.parse(localStorage.getItem('coins'));
+    let newAllCoins = alreadySavedCoins.filter(coin => coin !== coinId);
+    setAllCoins(newAllCoins);
+    localStorage.setItem('coins', JSON.stringify(newAllCoins));
   }
 
   useLayoutEffect(() => {
@@ -32,6 +34,7 @@ export const StorageProvider = ({children}) => {
     value={ { 
       allCoins,
       saveCoin,
+      removeCoin
     } }>
       {children}
     </StorageContext.Provider>

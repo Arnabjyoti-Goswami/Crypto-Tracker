@@ -1,8 +1,9 @@
-const StarIcon = () => {
+const StarIcon = ({borderHighLighted}) => {
   return (
   <svg 
-    className='w-[1.5rem] m-1.5 fill-gray-100 
-    hover:fill-cyan' 
+    className={`w-[1.5rem] m-1.5 
+    ${borderHighLighted ? 'fill-cyan' : 'fill-gray-100'}
+    hover:fill-cyan`}
     width="30" 
     height="30" 
     viewBox="0 0 30 30" 
