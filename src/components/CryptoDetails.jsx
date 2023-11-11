@@ -2,7 +2,7 @@ import { useContext, useLayoutEffect, useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { useNavigate, useParams } from 'react-router-dom';
 import { CryptoContext } from '../context/CryptoContext.jsx';
-import SelectIcon from '../assets/SelectIcon.jsx';
+import { SelectIcon, GithubLogo, FacebookLogo, RedditLogo, TwitterLogo } from '../assets/';
 import Chart from './Chart.jsx';
 import formatPrice from '../utils/formatPrice.js';
 
@@ -65,16 +65,35 @@ const CryptoDetails = () => {
 
   const getLinks = (data) => [
     {
-      label: data?.links?.homepage[0].substring(0,30),
-      data: data?.links?.homepage[0],
+      label: data.links.homepage[0].substring(0,30),
+      data: data.links.homepage[0],
     },
     {
-      label: data?.links?.blockchain_site[0].substring(0,30),
-      data: data?.links?.blockchain_site[0],
+      label: data.links.blockchain_site[0].substring(0,30),
+      data: data.links.blockchain_site[0],
     },
     {
-      label: data?.links?.official_forum_url[0].substring(0,30),
-      data: data?.links?.official_forum_url[0],
+      label: data.links.official_forum_url[0].substring(0,30),
+      data: data.links.official_forum_url[0],
+    },
+  ];
+
+  const getSocials = (data) => [
+    { 
+      icon: GithubLogo, 
+      link: data.links.repos_url.github[0],
+    },
+    { 
+      icon: TwitterLogo, 
+      link: `https://twitter.com/${data.links.twitter_screen_name}`,
+    },
+    { 
+      icon: RedditLogo, 
+      link: data.links.subreddit_url,
+    },
+    { 
+      icon: FacebookLogo, 
+      link: `https://facebook.com/${data.links.facebook_username}`,
     },
   ];
 
@@ -291,6 +310,20 @@ const CryptoDetails = () => {
             ) )
             }
             </div>
+          </div>
+          <div className='absolute bottom-8 right-8 flex items-center'>
+          {
+          getSocials(data).map( (item, index) => (
+            item.link ? (
+            <a target='blank' rel='noreferrer'
+            key={`social link #${index}`}
+            href={item.link}
+            className='text-lg px-1'>
+              <item.icon fillColor='cyan'/>
+            </a>
+            ) : null
+          ) )
+          }
           </div>
         </div>
         ) :
