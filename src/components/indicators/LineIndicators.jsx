@@ -67,7 +67,6 @@ const LineIndicators = ({ isPercent, currency, data, types }) => {
         <XAxis dataKey='date' hide />
         <Tooltip content={<CustomTooltip />} cursor={false} wrapperStyle={{outline: 'none'}}
         currency={currency} types={types} isPercent={isPercent} />
-        {/* <Tooltip /> */}
       </LineChart>
     </ResponsiveContainer>
   )

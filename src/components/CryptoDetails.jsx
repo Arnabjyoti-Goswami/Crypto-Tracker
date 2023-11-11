@@ -42,6 +42,42 @@ const CryptoDetails = () => {
     getCoinData(coinId);
   }, [coinId])
 
+  const getCoinRankings = (data) => [
+    { label: 'market cap rank: ', data: data.market_cap_rank },
+    { label: 'coinGecko rank: ', data: data.coingecko_rank },
+    { label: 'coinGecko score: ', data: Number(data.coingecko_score).toFixed(2) },
+  ];
+
+  const getSupply = (data) => [
+    {
+      label: 'max supply', 
+      data: new Intl.NumberFormat('en-IN', {
+      minimumFractionDigits: 0,
+      }).format(data.market_data.max_supply),
+    },
+    { 
+      label: 'circulating supply',
+      data: new Intl.NumberFormat('en-IN', {
+      minimumFractionDigits: 0,
+      }).format(data.market_data.circulating_supply),
+    },
+  ];
+
+  const getLinks = (data) => [
+    {
+      label: data?.links?.homepage[0].substring(0,30),
+      data: data?.links?.homepage[0],
+    },
+    {
+      label: data?.links?.blockchain_site[0].substring(0,30),
+      data: data?.links?.blockchain_site[0],
+    },
+    {
+      label: data?.links?.official_forum_url[0].substring(0,30),
+      data: data?.links?.official_forum_url[0],
+    },
+  ];
+
   return ReactDOM.createPortal(
     <div className='fixed top-0 w-full h-full
     bg-gray-200 bg-opacity-30 backdrop-blur-sm
@@ -118,9 +154,9 @@ const CryptoDetails = () => {
                 <span className='text-sm capitalize text-gray-100'>
                   fully diluted valuation
                 </span>
-                <h2 className='text-base font-bold'>
+                <h2 className='text-base font-bold ml-auto'>
                 {  
-                new Intl.NumberFormat('en', {
+                new Intl.NumberFormat('en-IN', {
                   style: 'currency',
                   currency: currency,
                   notation: 'compact',
@@ -174,52 +210,35 @@ const CryptoDetails = () => {
               </div>
             </div>
             <div className='flex w-full mt-4 justify-between'>
-              <div className='flex flex-col'>
+            {
+            getSupply(data).map( (item, index) => (
+              <div className='flex flex-col'
+              key={`supply data ${index}`}>
                 <span className='text-sm capitalize text-gray-100'>
-                  max supply
+                  {item.label}
                 </span>
-                <h2 className='text-base font-bold'>
-                {
-                new Intl.NumberFormat('en-IN', {
-                  style: 'currency',
-                  currency: currency,
-                  minimumFractionDigits: 0,
-                }).format(data.market_data.max_supply)
-                }
+                <h2 className='text-base font-bold ml-auto'>
+                  {item.data}
                 </h2>
               </div>
-              <div className='flex flex-col'>
-                <span className='text-sm capitalize text-gray-100'>
-                  circulating supply
-                </span>
-                <h2 className='text-base font-bold'>
-                {  
-                new Intl.NumberFormat('en-IN', {
-                  style: 'currency',
-                  currency: currency,
-                  minimumFractionDigits: 0,
-                }).format(data.market_data.circulating_supply)
-                }
-                </h2>
-              </div>
+            ) )
+            }
             </div>
-            <div className='flex w-full mt-4 justify-between'>
+            <div className='flex w-full mt-auto justify-between'>
               <div className='flex flex-col'>
-                <a className='text-sm bg-gray-200 text-gray-100 px-1.5 py-0.5 my-1 rounded' href={data?.links?.homepage[0]} 
-                rel='noreferrer' target='_blank'>
-                  {data?.links?.homepage[0].substring(0,30)}
-                </a>
-                <a className='text-sm bg-gray-200 text-gray-100 px-1.5 py-0.5 my-1 rounded' href={data?.links?.blockchain_site[0]}
-                rel='noreferrer' target='_blank'>
-                  {data?.links?.blockchain_site[0].substring(0,30)}
-                </a>
-                {
-                data.links.official_forum_url[0] ?
-                <a className='text-sm bg-gray-200 text-gray-100 px-1.5 py-0.5 my-1 rounded' href={data?.links?.official_forum_url[0]}
-                rel='noreferrer' target='_blank'>
-                  {data?.links?.official_forum_url[0].substring(0,30)}
-                </a> : null
-                }
+              {
+              getLinks(data).map( (item, index) => (
+                  item.data ? (
+                  <a className='text-sm bg-gray-200 text-gray-100 px-1.5 py-0.5 my-1 rounded' 
+                  href={item.data}
+                  key={`link #${index}`}
+                  rel='noreferrer' 
+                  target='_blank'>
+                    {item.label}
+                  </a> 
+                  ) : null
+              ) )
+              }
               </div>
               <div className='flex flex-col content-start'>
                 <span className='text-sm capitalize text-gray-100'>
@@ -257,8 +276,21 @@ const CryptoDetails = () => {
             </div>
           </div>
 
-          <div className='flex flex-col w-[55%] h-full pl-3'>
+          <div className='flex flex-col w-[55%] h-full pl-3 justify-stretch'>
             <Chart id={data.id} />
+            <div className='flex flex-col'>
+            {
+            getCoinRankings(data).map( (item, index) => (
+              <h3 key={`ranking details #${index}`}
+              className='text-white py-1'>
+                <span className='text-gray-100 capitalize mr-1'>
+                  {item.label}
+                </span>
+                {item.data}
+              </h3>
+            ) )
+            }
+            </div>
           </div>
         </div>
         ) :
