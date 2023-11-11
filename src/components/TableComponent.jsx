@@ -1,7 +1,7 @@
 import { StorageContext } from '../context/';
 import { useContext } from 'react';
 import { StarIcon } from '../assets/';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import formatPrice from '../utils/formatPrice.js';
 
 const SaveButton = ({data}) => {
@@ -27,6 +27,12 @@ const SaveButton = ({data}) => {
 }
 
 const TableComponent = ({data:cryptoData, currency}) => {
+  let navigate = useNavigate();
+  const handleNavigate = (e, coinId) => {
+    e.preventDefault();
+    navigate(coinId);
+  }
+
   return (
     <div className='flex flex-col mt-9 border border-gray-100 rounded'>
       {
@@ -51,17 +57,22 @@ const TableComponent = ({data:cryptoData, currency}) => {
           <tr key={data.id} className='text-center text-base border-b border-gray-100 hover:bg-gray-200 last:border-b-0'>
             <td className='py-4 flex items-center uppercase'>
               <SaveButton data={data} />
-              <img className='w-[1.2rem] h-[1.2rem] mx-1.5' src={data.image} alt={data.name} />
-              <span>
-                <Link to={`/${data.id}`} className='cursor-pointer'>
-                  {data.symbol}
-                </Link>
+              <img className='w-[1.2rem] h-[1.2rem] mx-1.5' 
+              src={data.image} alt={data.name} />
+              <span className='cursor-pointer'
+              onClick={
+                (e) => handleNavigate(e, data.id)
+              }>
+                {data.symbol}
               </span>
             </td>
             <td className='py-4'>
-              <Link to={`/${data.id}`} className='cursor-pointer'>
+              <span className='cursor-pointer'
+              onClick={
+                (e) => handleNavigate(e, data.id)
+              }>
                 {data.name}
-              </Link>
+              </span>
             </td>
             <td className='py-4'>
             {

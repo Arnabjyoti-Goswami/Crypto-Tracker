@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import { CryptoContext, StorageContext } from '../context/';
 import TableComponent from '../components/TableComponent.jsx';
+import { Outlet } from 'react-router-dom';
 
 const Saved = () => {
   const { savedCoinsData } = useContext(StorageContext);
@@ -9,6 +10,7 @@ const Saved = () => {
   return (
     <section className='w-[80%] h-full flex flex-col mt-4 mb-24 relative'>
       <TableComponent data={savedCoinsData} currency={currency} />
+    <Outlet />
     </section>
   )
 }
