@@ -1,4 +1,4 @@
-import { CryptoContext, StorageContext } from '../context/';
+import { StorageContext } from '../context/';
 import { useContext } from 'react';
 import { StarIcon } from '../assets/';
 import { Link } from 'react-router-dom';
@@ -16,7 +16,6 @@ const SaveButton = ({data}) => {
     }
   }
 
-
   return (
     <button className='outline-0 border-0 bg-none cursor-pointer'
     onClick={(e) => handleClick(e)}>
@@ -27,9 +26,7 @@ const SaveButton = ({data}) => {
   );
 }
 
-const TableComponent = () => {
-  const { cryptoData, currency } = useContext(CryptoContext);
-  
+const TableComponent = ({data:cryptoData, currency}) => {
   return (
     <div className='flex flex-col mt-9 border border-gray-100 rounded'>
       {
@@ -48,7 +45,7 @@ const TableComponent = () => {
           </tr>
         </thead>
         <tbody>
-        {  
+        {
         cryptoData.map(data => {
           return(
           <tr key={data.id} className='text-center text-base border-b border-gray-100 hover:bg-gray-200 last:border-b-0'>
@@ -107,4 +104,4 @@ const TableComponent = () => {
   )
 }
 
-export default TableComponent
+export default TableComponent;
