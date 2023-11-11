@@ -1,5 +1,4 @@
-import { createContext, useState, useLayoutEffect } from 'react';
-import { useContext } from 'react';
+import { createContext, useState, useLayoutEffect, useContext, useEffect } from 'react';
 import { CryptoContext } from './';
 
 export const StorageContext = createContext({});
@@ -46,6 +45,14 @@ export const StorageProvider = ({children}) => {
       }
     }
   }, []);
+
+  useEffect(() => {
+    if(allCoins?.length > 0) {
+      getSavedCoinsData(allCoins);
+    } else {
+      setSavedCoinsData();
+    }
+  }, [allCoins]);
 
   return (
     <StorageContext.Provider 
