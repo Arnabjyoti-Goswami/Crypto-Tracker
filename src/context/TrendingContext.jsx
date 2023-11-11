@@ -6,6 +6,7 @@ export const TrendingProvider = ({children}) => {
   const [trendingData, setTrendingData] = useState();
 
   const getTrendingData = async () => {
+    setTrendingData();
     try {
       const data = await fetch(`https://api.coingecko.com/api/v3/search/trending`).then(res => res.json()).then(json => json);
       console.log('Trending Page data', data);

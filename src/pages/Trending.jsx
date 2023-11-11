@@ -3,6 +3,7 @@ import { TrendingContext } from '../context/';
 import TrendingCoin from '../components/TrendingCoin.jsx';
 import { Outlet } from 'react-router-dom';
 import { ResetIcon } from '../assets/';
+import Loading from '../components/Loading.jsx';
 
 const Trending = () => {
   const { trendingData, resetTrendingPage } = useContext(TrendingContext);
@@ -18,7 +19,7 @@ const Trending = () => {
           <TrendingCoin key={`Trending Coin #${index}`} 
           data={data.item} />
         )
-      ) : null
+      ) : <Loading />
       }
         <button className='w-[2rem] ml-4
         hover:scale-110 transition-all transition-ease

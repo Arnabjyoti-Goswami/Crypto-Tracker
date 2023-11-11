@@ -5,6 +5,7 @@ import { CryptoContext } from '../context/CryptoContext.jsx';
 import { SelectIcon, GithubLogo, FacebookLogo, RedditLogo, TwitterLogo } from '../assets/';
 import Chart from './Chart.jsx';
 import formatPrice from '../utils/formatPrice.js';
+import Loading from './Loading.jsx';
 
 const HighLowIndicator = ({currentPrice, high, low}) => {
   const [green, setGreen] = useState();
@@ -327,7 +328,7 @@ const CryptoDetails = () => {
           </div>
         </div>
         ) :
-        null
+        <Loading />
       }
       </div>
     </div> ,

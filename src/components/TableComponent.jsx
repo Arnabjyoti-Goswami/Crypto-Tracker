@@ -3,6 +3,7 @@ import { useContext } from 'react';
 import { StarIcon } from '../assets/';
 import { useNavigate } from 'react-router-dom';
 import formatPrice from '../utils/formatPrice.js';
+import Loading from './Loading.jsx';
 
 const SaveButton = ({data}) => {
   const { allCoins, saveCoin, removeCoin } = useContext(StorageContext);
@@ -109,7 +110,7 @@ const TableComponent = ({data:cryptoData, currency}) => {
         }
         </tbody>
       </table> 
-      : null
+      : <Loading classNames='min-h-[60vh]' />
       }
     </div>
   )

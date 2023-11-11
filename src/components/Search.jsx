@@ -2,6 +2,7 @@ import { useContext, useState } from 'react';
 import searchIcon from '../assets/search-icon.svg';
 import { CryptoContext } from '../context/CryptoContext';
 import debounce from 'lodash.debounce';
+import Loading from './Loading';
 
 const SearchInput = ({handleSearch}) => {
   const [searchText, setSearchText] = useState('');
@@ -62,11 +63,7 @@ const SearchInput = ({handleSearch}) => {
             )
           })
           :
-          <div className='w-full h-full flex justify-center items-center'>
-            <div className='w-8 h-8 border-4 border-cyan rounded-full border-b-gray-200 animate-spin' 
-            role='status'/>
-            <span className='ml-2'>Searching...</span>
-          </div>
+          <Loading innerText='searching...' />
         }
         </ul>
         :

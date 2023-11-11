@@ -21,6 +21,8 @@ export const CryptoProvider = ({children}) => {
   }
 
   const getCryptoData = async () => {
+    setCryptoData();
+
     try {
       const data = await fetch(`https://api.coingecko.com/api/v3/coins/list`).then(res => res.json()).then(json => json);
       console.log(data.length);
@@ -45,6 +47,7 @@ export const CryptoProvider = ({children}) => {
   const [searchResultData, setSearchResultData] = useState();
 
   const getSearchResult = async (query) => {
+    setSearchResultData();
     try {
       const searchResultData = await fetch(`https://api.coingecko.com/api/v3/search?query=${query}`).then(res => res.json()).then(json => json);
       console.log(searchResultData);
@@ -57,6 +60,7 @@ export const CryptoProvider = ({children}) => {
   const [coinData, setCoinData] = useState();
 
   const getCoinData = async (coinId) => {
+    setCoinData();
     try {
       const data = await fetch(`https://api.coingecko.com/api/v3/coins/${coinId}?localization=false&tickers=false&market_data=true&community_data=false&developer_data=true&sparkline=false`).then(res => res.json()).then(json => json);
       console.log(data);
