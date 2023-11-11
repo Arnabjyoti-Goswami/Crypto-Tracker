@@ -1,6 +1,13 @@
+import { useNavigate } from 'react-router-dom';
 import formatPrice from '../utils/formatPrice.js';
 
 const TrendingCoin = ({data}) => {
+  let navigate = useNavigate();
+
+  const getCoinDetails = (id) => {
+    navigate(id);
+  }
+
   const getDetails = (coinData) => [
     { label: 'name', data: coinData.name},
     { label: 'market cap rank:', data: coinData.market_cap_rank},
@@ -12,7 +19,8 @@ const TrendingCoin = ({data}) => {
     <div className='relative p-4 w-[40%] bg-gray-200 
     mb-12 last:mb-0 rounded-lg cursor-pointer
     hover:bg-gray-100 hover:bg-opacity-40
-    s:w-[80%]'>
+    s:w-[80%]'
+    onClick={() => getCoinDetails(data.id)}>
       {
       getDetails(data).map( (item, index) => (
       <h3 className='text-base flex items-center my-0.5'
