@@ -1,8 +1,8 @@
 import { useContext } from 'react';
-import { TrendingContext } from '../context/TrendingContext.jsx';
+import { TrendingContext } from '../context/';
 import TrendingCoin from '../components/TrendingCoin.jsx';
 import { Outlet } from 'react-router-dom';
-import ResetIcon from '../assets/ResetIcon.jsx';
+import { ResetIcon } from '../assets/';
 
 const Trending = () => {
   const { trendingData, resetTrendingPage } = useContext(TrendingContext);

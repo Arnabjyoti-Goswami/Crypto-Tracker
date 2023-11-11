@@ -1,12 +1,28 @@
-import { CryptoContext } from '../context/CryptoContext.jsx';
+import { CryptoContext, StorageContext } from '../context/';
 import { useContext } from 'react';
-import StarSvg from '../assets/StarSvg.jsx';
+import { StarIcon } from '../assets/';
 import { Link } from 'react-router-dom';
 import formatPrice from '../utils/formatPrice.js';
 
+const SaveButton = ({data}) => {
+  const { saveCoin } = useContext(StorageContext);
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    saveCoin(data.id);
+  }
+
+  return (
+    <button className='outline-0 border-0 bg-none cursor-pointer'
+    onClick={(e) => handleClick(e)}>
+      <StarIcon />
+    </button>
+  );
+}
+
 const TableComponent = () => {
   const { cryptoData, currency } = useContext(CryptoContext);
-
+  
   return (
     <div className='flex flex-col mt-9 border border-gray-100 rounded'>
       {
@@ -30,9 +46,7 @@ const TableComponent = () => {
           return(
           <tr key={data.id} className='text-center text-base border-b border-gray-100 hover:bg-gray-200 last:border-b-0'>
             <td className='py-4 flex items-center uppercase'>
-              <button className='outline-0 border-0 bg-none cursor-pointer'>
-                <StarSvg />
-              </button>
+              <SaveButton data={data} />
               <img className='w-[1.2rem] h-[1.2rem] mx-1.5' src={data.image} alt={data.name} />
               <span>
                 <Link to={`/${data.id}`} className='cursor-pointer'>
