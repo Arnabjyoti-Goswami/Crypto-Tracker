@@ -9,6 +9,8 @@ export default {
       fontFamily: { nunito: "Nunito" },
       screens: {
         's' : {'min': '0px', 'max': '680px'},
+        'm' : {'min': '0px', 'max': '768px'},
+        'l' : {'min': '0px', 'max': '1024px'},
       },
     },
     colors: {
