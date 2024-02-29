@@ -4,7 +4,14 @@ import CryptoDetails from "./components/CryptoDetails.jsx";
 import { ErrorBoundary } from "react-error-boundary";
 
 const ErrorBoundaryLayout = () => (
-  <ErrorBoundary FallbackComponent={ErrorPage}>
+  <ErrorBoundary
+    FallbackComponent={ErrorPage}
+    onError={(error, info) => {
+      console.log("An error occurred!");
+      console.log(error);
+      console.log(info);
+    }}
+  >
     <Outlet />
   </ErrorBoundary>
 );
@@ -54,18 +61,7 @@ const router = createBrowserRouter([
 ]);
 
 const App = () => {
-  return (
-    <ErrorBoundary
-      FallbackComponent={ErrorPage}
-      onError={(error, info) => {
-        console.log("An error occurred!");
-        console.log(error);
-        console.log(info);
-      }}
-    >
-      <RouterProvider router={router} />
-    </ErrorBoundary>
-  );
+  return <RouterProvider router={router} />;
 };
 
 export default App;

@@ -1,5 +1,6 @@
 import { createContext, useState, useEffect, useContext } from "react";
 import { CryptoContext } from "./";
+import { useErrorBoundary } from "react-error-boundary";
 
 export const StorageContext = createContext({});
 
@@ -8,6 +9,8 @@ export const StorageProvider = ({ children }) => {
 
   const [allCoins, setAllCoins] = useState();
   const [savedCoinsData, setSavedCoinsData] = useState();
+
+  const { showBoundary } = useErrorBoundary();
 
   const saveCoin = (coinId) => {
     let alreadySavedCoins = JSON.parse(localStorage.getItem("coins"));
@@ -34,7 +37,7 @@ export const StorageProvider = ({ children }) => {
       console.log("Saved Coins' data", data);
       setSavedCoinsData(data);
     } catch (error) {
-      console.log(error);
+      showBoundary(error);
     }
   };
 

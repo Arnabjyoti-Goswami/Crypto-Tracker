@@ -1,9 +1,12 @@
 import { createContext, useState, useEffect } from "react";
+import { useErrorBoundary } from "react-error-boundary";
 
 export const TrendingContext = createContext({});
 
 export const TrendingProvider = ({ children }) => {
   const [trendingData, setTrendingData] = useState();
+
+  const { showBoundary } = useErrorBoundary();
 
   const getTrendingData = async () => {
     setTrendingData();
@@ -15,7 +18,7 @@ export const TrendingProvider = ({ children }) => {
       console.log("Trending Page data", data);
       setTrendingData(data.coins);
     } catch (error) {
-      console.log(error);
+      showBoundary(error);
     }
   };
 
